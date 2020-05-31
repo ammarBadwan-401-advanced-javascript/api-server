@@ -1,0 +1,52 @@
+{
+  "categories": [
+    {
+      "id": "3",
+      "name": "electronics",
+      "display_name": "Electronics",
+      "description": "A category for Electronics"
+    },
+    {
+      "id": "2",
+      "name": "Fun",
+      "display_name": "fun",
+      "description": "This is the fun category"
+    },
+    {
+      "id": "1",
+      "name": "Food",
+      "display_name": "Food",
+      "description": "This is the updated food category"
+    }
+  ],
+  "products": [
+    {
+      "id": "2",
+      "category": "electronics",
+      "name": "iPhone",
+      "display_name": "iPhone 11",
+      "description": "An Apple phone."
+    },
+    {
+      "id": "3",
+      "category": "Food",
+      "name": "Mangos",
+      "display_name": "Mango",
+      "description": "A delicious mango."
+    },
+    {
+      "id": "4",
+      "category": "food",
+      "name": "Shawarma",
+      "display_name": "Shawarma Double",
+      "description": "A tasty shawarma sandwich"
+    },
+    {
+      "id": "1",
+      "category": "electronics",
+      "name": "playstation",
+      "display_name": "PlayStation 4",
+      "description": "A gaming consol, updated"
+    }
+  ]
+}
