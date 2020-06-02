@@ -2,68 +2,49 @@
 
 const express = require('express');
 const router = express.Router();
-
-
-
-
-
+const category = require('../lib/models/categories/categories.collection');
 
 // ***************--- Categories routes ---***************
 
-let categories = [];
-let categoriesId = 0;
+router.get('/categories', getCategory);
+router.get('/categories/:id',getCategory);
+router.post('/categories', createCategory);
+router.delete('/categories/:id',deleteCategory);
+router.put('/categories/:id',updateCategory);
 
-router.get('/categories', (req,res)=>{
-  res.status(200).json(categories);
-});
+//Functions
 
-router.get('/categories/:id', (req,res)=>{
-  let result;
-  categories.forEach(value=>{
-    if(value.id === req.params.id){
-      result = value;
-    }
-  });
-  if(!result){
-    result = {error: 'No category was found'};
+function getCategory(req,res,next){
+  let idCheck;
+  if(req.params.id){
+    idCheck = req.params.id;
   }
-  res.status(200).json(result);
-});
+  category.read(idCheck)
+    .then(result=>{
+      res.status(200).json(result);
+    })
+    .catch(next);
+}
 
-router.post('/categories',(req,res)=>{
-  let {name,display_name,description} = req.body;
-  categoriesId++;
-  let record = {
-    id: categoriesId.toString(),
-    name: name,
-    display_name: display_name,
-    description: description,
-  };
-  categories.push(record);
-  res.status(200).json(record);
-});
+function createCategory (req,res,next){
+  category.create(req.body)
+    .then(result =>{
+      res.status(201).json(result);
+    }).catch(next);
+}
 
-router.delete('/categories/:id',(req,res)=>{
-  categories.forEach((value,number)=>{
-    if(value.id === req.params.id){
-      categories.splice(number,1);
-    }
-  });
-  res.status(200).json(categories);
-});
+function deleteCategory(req,res,next){
+  category.delete(req.params.id)
+    .then(result=>{
+      res.status(200).json(result);
+    }).catch(next);
+}
 
-router.put('/categories/:id',(req,res)=>{
-  let {name,display_name,description} = req.body;
-  let index;
-  categories.forEach((value,number)=>{
-    if(value.id === req.params.id){
-      index = number;
-      value.name = name;
-      value.display_name = display_name;
-      value.description = description;
-    }
-  });
-  res.status(200).json(categories[index]);
-});
+function updateCategory(req,res,next){
+  category.update(req.params.id,req.body)
+    .then(result =>{
+      res.status(200).json(result);
+    }).catch(next);
+}
 
 module.exports = router;
