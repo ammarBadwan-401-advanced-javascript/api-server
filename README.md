@@ -1,4 +1,4 @@
-# LAB - 07
+# LAB - 08
 
 ## API-Server
 
@@ -7,16 +7,20 @@
 ### Links and Resources
 
 - [Swagger](https://app.swaggerhub.com/apis/ammarbadwan/Api-Server-ammar/1)
-- [Pull Request](https://github.com/ammarBadwan-401-advanced-javascript/api-server/pull/2)
+- [Pull Request](https://github.com/ammarBadwan-401-advanced-javascript/api-server/pull/4)
 - [GitHub Actions CI](https://github.com/ammarBadwan-401-advanced-javascript/api-server/actions)
 
 ### Modules
 
 * `./lib/server.js`
+* `./lib/models/model.js`
+* `./lib/models/categories/categories.collection.js`
+* `./lib/models/products/products.collection.js`
 * `./middleware/404.js`
 * `./middleware/500.js`
 * `./middleware/logger.js`
 * `./middleware/timestamp.js`
+
 
 
 ### How to initialize the application
