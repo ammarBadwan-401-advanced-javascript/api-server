@@ -1,19 +1,16 @@
 'use strict';
 
+const supergoose = require('@code-fellows/supergoose');
 const serverModule = require('../lib/server');
 const server = serverModule.server;
 // const {server} = require('../lib/server') --> its the 2 above lines combined together
-const supertest = require('supertest');
+const mockRequest = supergoose(server);
 
-const mockRequest = supertest(server);
+describe('Categories & Products API', ()=> {
 
-describe('Web API Tests',()=>{
-
-
-  //Post tests
-  it('Should post in /products',()=>{
-    let productObject = {
-      id: '3',
+  // Testing products routes
+  it('it can create() products ', ()=> {
+    let obj ={
       category: 'electronics',
       name: 'iPhone',
       display_name: 'iPhone 11',
@@ -21,109 +18,110 @@ describe('Web API Tests',()=>{
     };
     return mockRequest
       .post('/products')
-      .send(productObject)
-      .then(results=>{
-        expect(results.status).toBe(200);
+      .send(obj)
+      .then(data => {
+        expect(data.status).toBe(201);
+        Object.keys(obj).forEach(key => {
+          expect(data.body[key]).toEqual(obj[key]);
+        });
       });
   });
 
-  it('Should post in /categories',()=>{
-    let categoriesObject = {
-      id: '9',
-      name: 'Food',
-      display_name: 'Food',
-      description: 'This is the food category',
-    };
-    return mockRequest
-      .post('/categories')
-      .send(categoriesObject)
-      .then(results=>{
-        expect(results.status).toBe(200);
-      });
-  });
-
-  //Get tests
-  it('Should get properly @ /products', ()=> {
-    return mockRequest
-      .get('/products')
-      .then(results => {
-        expect(results.status).toBe(200);
-      });
-  });
-    
-  it('Should get properly @ /products:id (with id)', ()=> {
-    return mockRequest
-      .get('/products/3')
-      .then(results => {
-        expect(results.status).toBe(200);
-      });
-  });
-    
-    
-  it('Should get properly @ /categories', ()=> {
-    return mockRequest
-      .get('/categories')
-      .then(results => {
-        expect(results.status).toBe(200);
-      });
-  });
-    
-  it('Should get properly @ /categories/:id (with id)', ()=> {
-    return mockRequest
-      .get('/categories/9')
-      .then(results => {
-        expect(results.status).toBe(200);
-      });
-  });
-
-  // PUT tests (update)
-  it('Should update in /products/:id ',()=>{
-    let productObject = {
-      id: '3',
+  it('it can read() products ', ()=> {
+    let obj ={
       category: 'electronics',
       name: 'iPhone',
       display_name: 'iPhone 11',
       description: 'An Apple phone.',
     };
     return mockRequest
-      .put('/products/3')
-      .send(productObject)
-      .then(results=>{
-        expect(results.status).toBe(200);
+      .post('/products')
+      .send(obj)
+      .then(result => {
+        return mockRequest.get('/products')
+          .then(result => {
+            Object.keys(obj).forEach(key=> {
+              expect(result.body[0][key]).toEqual(obj[key]);
+            });
+          });
       });
   });
 
-  it('Should update in /categories/:id',()=>{
-    let categoriesObject = {
-      id: '9',
-      name: 'Food',
-      display_name: 'Food',
-      description: 'This is the food category',
+  it('it can update() products ', ()=> {
+    let obj ={
+      category: 'electronics updated',
+      name: 'iPhone',
+      display_name: 'iPhone 11',
+      description: 'An Apple phone.',
     };
     return mockRequest
-      .put('/categories/9')
-      .send(categoriesObject)
-      .then(results=>{
-        expect(results.status).toBe(200);
+      .get('/products')
+      .then(result => {
+        let _id = result.body[0]._id;
+        return mockRequest.put(`/products/${_id}`)
+          .send(obj)
+          .then(result => {
+            Object.keys(obj).forEach(key=> {
+              expect(result.body[key]).toEqual(obj[key]);
+            });
+          });
       });
   });
 
-  // DELETE tests
-
-  it('Should delete @ /products/:id', ()=> {
+  //Testing Categories routes
+  it('it can create() Category ', ()=> {
+    let obj = {
+      name: 'electronics',
+      display_name: 'Electronics',
+      description: 'A category for Electronics',
+    };
     return mockRequest
-      .delete('/products/3')
-      .then(results => {
-        expect(results.status).toBe(200);
+      .post('/categories')
+      .send(obj)
+      .then(data => {
+        expect(data.status).toBe(201);
+        Object.keys(obj).forEach(key => {
+          expect(data.body[key]).toEqual(obj[key]);
+        });
       });
   });
 
-  it('Should delete @ /categories/:id', ()=> {
+  it('it can read() Category ', ()=> {
+    let obj = {
+      name: 'electronics',
+      display_name: 'Electronics',
+      description: 'A category for Electronics',
+    };
     return mockRequest
-      .delete('/categories/9')
-      .then(results => {
-        expect(results.status).toBe(200);
+      .post('/categories')
+      .send(obj)
+      .then(result => {
+        return mockRequest.get('/categories')
+          .then(result => {
+            Object.keys(obj).forEach(key=> {
+              expect(result.body[0][key]).toEqual(obj[key]);
+            });
+          });
       });
   });
 
+  it('it can update() Category ', ()=> {
+    let obj = {
+      name: 'electronics',
+      display_name: 'Electronics',
+      description: 'A category for Electronics',
+    };
+    return mockRequest
+      .get('/categories')
+      .then(result => {
+        let _id = result.body[0]._id;
+        return mockRequest.put(`/categories/${_id}`)
+          .send(obj)
+          .then(result => {
+            Object.keys(obj).forEach(key=> {
+              expect(result.body[key]).toEqual(obj[key]);
+            });
+          });
+      });
+  });
 });
