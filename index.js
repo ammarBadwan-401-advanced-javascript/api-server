@@ -11,4 +11,4 @@ mongoose.connect(URI,{
   useFindAndModify: false,
 });
 
-server.start(4000);
+server.start();
