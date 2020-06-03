@@ -1,4 +1,4 @@
-# LAB - 08
+# LAB - 09
 
 ## API-Server
 
@@ -7,7 +7,7 @@
 ### Links and Resources
 
 - [Swagger](https://app.swaggerhub.com/apis/ammarbadwan/Api-Server-ammar/1)
-- [Pull Request](https://github.com/ammarBadwan-401-advanced-javascript/api-server/pull/4)
+- [Pull Request](https://github.com/ammarBadwan-401-advanced-javascript/api-server/pull/5)
 - [GitHub Actions CI](https://github.com/ammarBadwan-401-advanced-javascript/api-server/actions)
 
 ### Modules
@@ -16,6 +16,8 @@
 * `./lib/models/model.js`
 * `./lib/models/categories/categories.collection.js`
 * `./lib/models/products/products.collection.js`
+* `./routes/api.js`
+* `./middleware/getModel.js`
 * `./middleware/404.js`
 * `./middleware/500.js`
 * `./middleware/logger.js`
